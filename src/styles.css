@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  font-family: 'Cairo', system-ui, sans-serif; color: #fff5ee; background: #090711;
+  font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+  --gold: #f5d49a; --gold-bright: #ffe6b5; --rose: #ff9db7; --muted: #c8b7c9;
+}
+* { box-sizing: border-box; }
+html { min-width: 320px; background: #090711; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button { font: inherit; }
+button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
+.page-shell {
+  position: relative; isolation: isolate; min-height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: clamp(18px, 4vw, 48px) 14px 22px;
+  background: radial-gradient(ellipse at 50% 5%, #2a1833 0%, #110d20 40%, #090711 78%);
+}
+.ambient { position: fixed; z-index: -2; width: 44vw; height: 44vw; min-width: 260px; min-height: 260px; border-radius: 50%; filter: blur(80px); opacity: .18; pointer-events: none; }
+.ambient-one { top: -12%; right: -8%; background: #a64c79; animation: ambient-drift 18s ease-in-out infinite alternate; }
+.ambient-two { bottom: -15%; left: -12%; background: #a87837; animation: ambient-drift 22s ease-in-out infinite alternate-reverse; }
+.star-field { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.star { position: absolute; left: var(--x); top: var(--y); width: 3px; height: 3px; border-radius: 50%; background: #ffe6b5; opacity: .2; box-shadow: 0 0 10px #ffd9a0; animation: twinkle 3.8s ease-in-out var(--delay) infinite; }
+.love-card {
+  width: min(100%, 720px); position: relative; padding: clamp(22px, 5vw, 48px);
+  border: 1px solid rgba(245, 212, 154, .36); border-radius: clamp(24px, 5vw, 42px);
+  background: linear-gradient(150deg, rgba(31, 21, 39, .92), rgba(15, 12, 25, .94));
+  box-shadow: 0 24px 100px #0007, inset 0 1px 0 #fff1, 0 0 50px #a64c7912;
+  backdrop-filter: blur(18px); animation: card-enter .9s cubic-bezier(.2,.75,.2,1) both;
+}
+.top-ornament { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--gold); font-size: 15px; }
+.top-ornament span { width: 58px; height: 1px; background: linear-gradient(90deg, transparent, #d7ad70); }
+.top-ornament span:last-child { transform: rotate(180deg); }
+.eyebrow { margin: 12px 0 4px; color: var(--muted); text-align: center; font-size: .8rem; letter-spacing: .04em; }
+.royal-names { text-align: center; }
+.royal-names h1 { display: flex; justify-content: center; align-items: center; gap: clamp(10px, 3vw, 22px); margin: 0; font-size: clamp(2rem, 7vw, 3.55rem); font-weight: 900; line-height: 1.4; }
+.royal-names h1 span { color: transparent; background: linear-gradient(130deg, #fff0ce, #d9ad70 58%, #fff0cf); background-clip: text; -webkit-background-clip: text; }
+.royal-names h1 b { font-size: .9em; color: var(--rose); font-weight: 500; animation: heartbeat 2s ease-in-out infinite; }
+.royal-names > p { margin: 2px 0 0; color: #d9c7d8; font-size: clamp(.86rem, 2.6vw, 1.05rem); }
+.heart-emblem { height: 148px; display: grid; place-items: center; position: relative; margin: 12px auto 2px; width: 190px; }
+.main-heart { display: block; color: #ff8eac; font-size: 76px; line-height: 1; text-shadow: 0 0 12px #ff6b9b99, 0 0 40px #ff6b9b55; animation: heartbeat 2.1s ease-in-out infinite; }
+.orbit { position: absolute; width: 108px; height: 108px; border: 1px solid #e5bc8355; border-radius: 50%; }
+.orbit-one { transform: scaleX(1.55) rotate(-28deg); animation: orbit-spin 16s linear infinite; }
+.orbit-two { transform: scaleX(1.55) rotate(52deg); border-color: #ff9db744; animation: orbit-spin 22s linear infinite reverse; }
+.tiny-spark { position: absolute; color: var(--gold-bright); font-size: 18px; }
+.spark-one { top: 19px; right: 34px; }
+.spark-two { bottom: 17px; left: 33px; color: var(--rose); }
+.days-counter { display: flex; justify-content: center; align-items: center; gap: 16px; width: fit-content; max-width: 100%; margin: 5px auto 25px; padding: 13px 25px; border: 1px solid #f5d49a55; border-radius: 22px; background: linear-gradient(120deg, #f5d49a0c, #ff9db710); box-shadow: inset 0 0 20px #fff1; }
+.counter-heart { color: var(--rose); font-size: 26px; }
+.days-counter > div { display: flex; flex-direction: column; align-items: center; }
+.days-number { color: var(--gold-bright); font-size: clamp(2.2rem, 7vw, 3rem); font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.days-label { color: #ddcbdc; font-size: .78rem; }
+.counter-calendar { color: var(--gold); font-size: 28px; }
+.love-letter { padding: clamp(18px, 4vw, 28px); border-radius: 22px; border: 1px solid #fff1; border-right: 3px solid #d6ac74; background: linear-gradient(130deg, #08070e8c, #25162a70); color: #f5eaf0; line-height: 2; font-size: clamp(.94rem, 2.6vw, 1.05rem); }
+.letter-kicker { margin: 0 0 5px; color: var(--gold); font-size: .8rem; font-weight: 700; }
+.love-letter h2 { margin: 0 0 12px; font-size: clamp(1.3rem, 4vw, 1.7rem); color: #fff0dc; }
+.love-letter h2 span { color: var(--rose); }
+.love-letter > p:not(.letter-kicker) { margin: 10px 0; }
+.letter-signature { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #d7ad704d; color: #f4d8aa; font-size: .9rem; }
+.letter-signature span { color: var(--rose); font-weight: 800; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 22px; }
+.button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 11px 20px; border-radius: 999px; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; font-weight: 800; }
+.button:hover { transform: translateY(-2px); }
+.button:active { transform: scale(.98); }
+.button-primary { color: #241523; border: 1px solid #ffe6b5; background: linear-gradient(110deg, #f5d49a, #ffb5c8); box-shadow: 0 6px 22px #eab6a21f; }
+.button-secret { color: #f9e9f0; border: 1px solid #ff9db766; background: #ff9db710; }
+.button-secret:hover { background: #ff9db71d; box-shadow: 0 0 22px #ff9db71a; }
+.secret-message { margin-top: 18px; padding: 22px; border: 1px solid #ff9db744; border-radius: 22px; background: #ff9db708; animation: secret-reveal .5s ease both; }
+.secret-message[hidden] { display: none; }
+.secret-seal { display: grid; place-items: center; width: 38px; height: 38px; margin: 0 auto 10px; border: 1px solid #ff9db766; border-radius: 50%; color: var(--rose); }
+.secret-message .letter-kicker { text-align: center; }
+.secret-message > p:not(.letter-kicker) { margin: 8px 0; color: #f0dfec; font-size: .94rem; line-height: 2; }
+.secret-signature { display: block; margin-top: 10px; text-align: center; color: var(--gold); font-weight: 800; }
+.signature { text-align: center; margin-top: 25px; color: var(--gold); }
+.signature > span { font-size: 18px; }
+.signature p { margin: 4px 0 0; font-size: .92rem; }
+.signature small { color: #a99aaf; font-size: .76rem; }
+.music-button { position: fixed; z-index: 5; bottom: max(14px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 10px 19px; white-space: nowrap; color: #fff0d6; background: #17101eef; border: 1px solid #e8c58b88; border-radius: 999px; box-shadow: 0 8px 30px #0006; backdrop-filter: blur(12px); cursor: pointer; }
+.music-button:hover { background: #302035; }
+.music-button.is-playing .music-icon { animation: music-pulse 1s ease-in-out infinite; }
+.music-icon { color: var(--gold); font-size: 1.25rem; }
+.music-error { position: fixed; z-index: 6; bottom: 68px; left: 12px; right: 12px; margin: 0 auto; width: fit-content; max-width: calc(100% - 24px); padding: 9px 13px; border-radius: 12px; background: #261723; color: #ffe0e8; font-size: .8rem; text-align: center; }
+.page-note { margin: 18px 0 55px; color: #8f8198; font-size: .72rem; text-align: center; }
+.heart-rain { position: fixed; inset: 0; z-index: 10; overflow: hidden; pointer-events: none; }
+.falling-heart { position: absolute; top: -40px; opacity: 0; animation-name: fall; animation-timing-function: ease-in; animation-fill-mode: forwards; filter: drop-shadow(0 0 7px #ff8eac66); }
+@keyframes fall { 0% { transform: translate3d(0, -5vh, 0) rotate(0); opacity: 0; } 12% { opacity: .95; } 100% { transform: translate3d(30px, 110vh, 0) rotate(360deg); opacity: 0; } }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.09); } 24% { transform: scale(1); } 36% { transform: scale(1.05); } }
+@keyframes twinkle { 0%, 100% { opacity: .15; transform: scale(.8); } 50% { opacity: .8; transform: scale(1.5); } }
+@keyframes orbit-spin { to { rotate: 360deg; } }
+@keyframes ambient-drift { to { transform: translate(8vw, 5vh) scale(1.12); } }
+@keyframes card-enter { from { opacity: 0; transform: translateY(20px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes secret-reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes music-pulse { 50% { transform: scale(1.15); } }
+@media (max-width: 480px) {
+  .page-shell { padding: 14px 10px 20px; justify-content: flex-start; }
+  .love-card { padding: 23px 16px; border-radius: 25px; }
+  .heart-emblem { height: 125px; transform: scale(.88); margin: 4px auto 0; }
+  .days-counter { margin-bottom: 18px; padding: 10px 17px; gap: 12px; }
+  .love-letter { padding: 17px 15px; line-height: 1.95; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .button { width: 100%; }
+  .secret-message { padding: 18px 15px; }
+  .music-button { bottom: max(12px, env(safe-area-inset-bottom)); }
+  .page-note { margin-top: 16px; margin-bottom: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
