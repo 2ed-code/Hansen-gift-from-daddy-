@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { daysSince } from './dateUtils.js';
 
 const START_DATE = '2026-02-17';
-const SONG_URL = 'https://www.free-stock-music.com/music/alex-productions/mp3/alex-productions-loving.mp3';
+const SONG_URL = 'https://orangefreesounds.com/wp-content/uploads/2025/04/Emotional-romantic-piano-music.mp3';
 const REASONS = [
   { icon: '✧', title: 'ضحكتك', text: 'بتخلّي أبسط يوم عادي يبقى حاجة أفتكرها وأنا مبتسم.' },
   { icon: '☾', title: 'صوتك', text: 'فيه طمأنينة غريبة كده… كأن الدنيا بتهدى شوية.' },
@@ -195,11 +195,11 @@ export default function App() {
       <SectionHeading eyebrow="A SOFT LITTLE SOUNDTRACK">موسيقى على هدوء الحكاية</SectionHeading>
       <div className="music-card">
         <div className={'record ' + (isPlaying ? 'record-playing' : '')} aria-hidden="true"><span>♡</span></div>
-        <div className="music-info"><strong>لحن هادي للحظة دي</strong><span>{isPlaying ? 'سيبي الموسيقى تكمل الحكاية…' : 'شغّليها وإنتِ بتتصفحي الهدية'}</span><small>Instrumental piano · Loving — Alex-Productions</small></div>
+        <div className="music-info"><strong>لحن هادي للحظة دي</strong><span>{isPlaying ? 'سيبي الموسيقى تكمل الحكاية…' : 'شغّليها وإنتِ بتتصفحي الهدية'}</span><small>Soft romantic piano · Alexander Blu</small></div>
         <button type="button" className="music-toggle" onClick={toggleMusic} aria-label={isPlaying ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى'}>{isPlaying ? 'Ⅱ' : '▶'}</button>
       </div>
-      {musicError && <p className="music-error" role="status">{musicError} <a href="https://www.free-stock-music.com/alex-productions-loving.html" target="_blank" rel="noreferrer">المصدر</a></p>}
-      <p className="music-credit">الموسيقى: “Loving” — Alex-Productions · <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a></p>
+      {musicError && <p className="music-error" role="status">{musicError} <a href="https://orangefreesounds.com/emotional-romantic-piano-music/" target="_blank" rel="noreferrer">المصدر</a></p>}
+      <p className="music-credit">الموسيقى: Emotional Romantic Piano — Alexander Blu · <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a></p>
       <audio ref={audioRef} src={SONG_URL} loop preload="none" onPause={() => setIsPlaying(false)} onPlay={() => setIsPlaying(true)} onError={() => { setIsPlaying(false); setMusicError('المصدر الموسيقي مش متاح دلوقتي.'); }} />
     </section>
 
