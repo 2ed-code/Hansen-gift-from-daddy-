@@ -22,3 +22,7 @@ A refreshed mobile-first Arabic love-gift experience built with React and Vite.
 The soundtrack is “Emotional Romantic Piano Music” by Alexander Blu from Orange Free Sounds, offered for non-commercial use under CC BY-NC 4.0. The page links to its source and license. The start date is 2026-02-17; on 2026-10-11 the elapsed-day count is 236.
 
 This version is isolated on `feature/romantic-surprise-v2`. It is not merged into `main`.
+
+
+## Deployment
+GitHub Pages is configured to build and publish this branch through `.github/workflows/pages.yml` whenever a commit is pushed to `feature/romantic-surprise-v2`. The repository's Pages source must be set to **GitHub Actions**.
