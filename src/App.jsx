@@ -1,41 +1,56 @@
 import { useEffect, useRef, useState } from 'react';
 import { daysSince } from './dateUtils.js';
 
-// This date reproduces the original counter: 108 days on 2026-06-05.
 const RELATIONSHIP_START_DATE = '2026-02-17';
+// Replace this URL with your chosen song MP3 when ready.
 const SONG_URL = 'https://www.image2url.com/r2/default/files/1780677145758-8e39fc6a-d069-480d-ac2c-37aaf1ce9140.mp3';
-const HEARTS = ['❤️', '💖', '💗', '💓', '💞', '🌸', '🌹'];
+const REASONS = [
+  { title: 'ضحكتك', text: 'لأن ضحكتك بتخلّي اليوم العادي ذكرى حلوة.' },
+  { title: 'قلبك', text: 'لأن طيبتك وتفاصيلك الصغيرة غالية عندي.' },
+  { title: 'وجودك', text: 'لأن حتى الكلام البسيط معاكي بيطمن قلبي.' },
+  { title: 'حلمنا', text: 'لأن نفسي نبني أيامنا واحدة واحدة، بحب وراحة ورضا.' }
+];
 
 function FloatingHearts({ burstKey }) {
   const [hearts, setHearts] = useState([]);
   useEffect(() => {
     if (!burstKey) return;
-    const burst = Array.from({ length: 34 }, (_, index) => ({
-      id: burstKey + '-' + index,
-      left: Math.random() * 100,
-      delay: Math.random() * 0.75,
-      duration: 3.1 + Math.random() * 2.8,
-      size: 15 + Math.random() * 20,
-      symbol: HEARTS[Math.floor(Math.random() * HEARTS.length)]
+    const burst = Array.from({ length: 14 }, (_, i) => ({
+      id: burstKey + '-' + i,
+      left: 8 + Math.random() * 84,
+      delay: Math.random() * 0.25,
+      size: 13 + Math.random() * 12,
+      symbol: ['♡', '♥', '✦'][i % 3]
     }));
     setHearts(burst);
-    const timeout = window.setTimeout(() => setHearts([]), 6500);
+    const timeout = window.setTimeout(() => setHearts([]), 2600);
     return () => window.clearTimeout(timeout);
   }, [burstKey]);
-
   return <div className="heart-rain" aria-hidden="true">
-    {hearts.map((heart) => <span className="falling-heart" key={heart.id} style={{
-      left: heart.left + '%',
-      animationDelay: heart.delay + 's',
-      animationDuration: heart.duration + 's',
-      fontSize: heart.size + 'px'
+    {hearts.map((heart) => <span key={heart.id} className="falling-heart" style={{
+      left: heart.left + '%', animationDelay: heart.delay + 's', fontSize: heart.size + 'px'
     }}>{heart.symbol}</span>)}
   </div>;
 }
 
+function Envelope({ opened, onOpen }) {
+  return <button className={'envelope-button ' + (opened ? 'is-open' : '')} onClick={onOpen} type="button" aria-expanded={opened} aria-label={opened ? 'إغلاق الظرف' : 'افتحي الظرف واكتشفي المفاجأة'}>
+    <span className="envelope-glow" />
+    <span className="envelope">
+      <span className="envelope-back" />
+      <span className="envelope-paper"><span>إلى حنين، من يوسف</span><b>في كلام قلبي ليكي…</b></span>
+      <span className="envelope-flap" />
+      <span className="wax-seal">Y<span>♥</span>H</span>
+    </span>
+    <span className="envelope-hint">{opened ? 'المفاجأة اتفتحت ♡' : 'اضغطي على الختم وافتحي هديتك'}</span>
+  </button>;
+}
+
 export default function App() {
   const [days, setDays] = useState(() => daysSince(RELATIONSHIP_START_DATE));
+  const [opened, setOpened] = useState(false);
   const [secretOpen, setSecretOpen] = useState(false);
+  const [reasonIndex, setReasonIndex] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [musicError, setMusicError] = useState('');
@@ -62,80 +77,89 @@ export default function App() {
       setIsPlaying(true);
     } catch {
       setIsPlaying(false);
-      setMusicError('مش قادر أشغّل الأغنية دلوقتي. جرّبي تضغطي تاني أو اتأكدي إن الإنترنت شغال.');
+      setMusicError('تعذّر تشغيل الموسيقى. اتأكدي من الإنترنت وجربي تاني.');
     }
   }
 
   return <main className="page-shell">
-    <div className="ambient ambient-one" aria-hidden="true" />
-    <div className="ambient ambient-two" aria-hidden="true" />
-    <div className="star-field" aria-hidden="true">
-      {Array.from({ length: 26 }, (_, i) => <span className="star" key={i} style={{
-        '--x': ((i * 37 + 9) % 100) + '%',
-        '--y': ((i * 23 + 5) % 100) + '%',
-        '--delay': ((i % 7) * -0.6) + 's'
-      }} />)}
-    </div>
+    <div className="night-glow glow-a" aria-hidden="true" />
+    <div className="night-glow glow-b" aria-hidden="true" />
+    <div className="grain" aria-hidden="true" />
     <FloatingHearts burstKey={burstKey} />
 
-    <section className="love-card" aria-labelledby="page-title">
-      <div className="top-ornament"><span /> ✦ <span /></div>
-      <p className="eyebrow">حكاية صغيرة… وحب كبير</p>
-      <header className="royal-names">
-        <h1 id="page-title"><span>حنين</span><b aria-hidden="true">♡</b><span>يوسف</span></h1>
-        <p>حُبّنا حكاية نفسي تكمّل العمر كله</p>
-      </header>
+    <header className="intro">
+      <span className="top-label"><i /> A LITTLE SURPRISE FOR YOU <i /></span>
+      <p className="arabic-kicker">فيه حد في الدنيا دي… بيحبك أكتر ما تتخيلي</p>
+      <h1>يا <em>نونتي</em></h1>
+      <p className="intro-copy">عملتلك حاجة صغيرة، بس حطّيت فيها حتة كبيرة من قلبي.</p>
+    </header>
 
-      <div className="heart-emblem" aria-label="قلب حب متوهج">
-        <span className="orbit orbit-one" /><span className="orbit orbit-two" />
-        <span className="main-heart">♥</span>
-        <span className="tiny-spark spark-one">✦</span><span className="tiny-spark spark-two">✧</span>
-      </div>
-
-      <div className="days-counter" aria-live="polite">
-        <span className="counter-heart" aria-hidden="true">♥</span>
-        <div><strong className="days-number">{days.toLocaleString('ar-EG')}</strong><span className="days-label">يوم حلو وإنتِ في حياتي</span></div>
-        <span className="counter-calendar" aria-hidden="true">∞</span>
-      </div>
-
-      <article className="love-letter">
-        <p className="letter-kicker">من قلب يوسف لنونتي</p>
-        <h2>يا نونتي الحلوة… <span>🤍</span></h2>
-        <p>أنا بحبك أوي بجد، وكل يوم بيعدّي بحس إن وجودك في حياتي نعمة كبيرة بدعي ربنا تفضل معايا.</p>
-        <p>نفسي أفضل جنبك في الحلوة والمُرّة، ونعدّي أي حاجة سوا، ونشوف أحلامنا وهي بتتحقق واحدة واحدة.</p>
-        <p>ربنا يفرّح قلبك، ويوفّقك في كل خطوة، ويكتب لنا الخير ويقرّبنا من بعض بالحلال. إنتِ مش يوم حلو في حياتي… إنتِ من أحلى الحاجات اللي حصلتلي. 💗</p>
-        <div className="letter-signature">بحبك النهارده، وبكرة، وكل يوم جاي <span>— بابي</span></div>
-      </article>
-
-      <div className="actions">
-        <button className="button button-primary" type="button" onClick={() => setBurstKey((key) => key + 1)}>
-          <span aria-hidden="true">♡</span> ابعتيلي قلب من بعيد
-        </button>
-        <button className="button button-secret" type="button" aria-expanded={secretOpen} aria-controls="secret-message" onClick={() => setSecretOpen((open) => !open)}>
-          <span aria-hidden="true">{secretOpen ? '♡' : '✉'}</span>
-          {secretOpen ? 'اقفلي رسالتي السرية' : 'افتحي رسالتي السرية'}
-        </button>
-      </div>
-
-      <div id="secret-message" className={'secret-message ' + (secretOpen ? 'is-open' : '')} aria-hidden={!secretOpen} hidden={!secretOpen}>
-        <div className="secret-seal" aria-hidden="true">♥</div>
-        <p className="letter-kicker">سرّ صغير ليكي إنتِ وبس</p>
-        <p>يا نونتي، لو الدنيا في يوم تعبتك أو حسّيتي إن كل حاجة تقيلة، افتكري إن في قلب بيتمنالك الخير والراحة والفرحة من كل قلبه. نفسي أكون أمانك وسندك، وأشوف ضحكتك مطمّنة، ونبني مستقبل نفتخر بيه سوا. إنتِ غالية عندي، ومشاعري ليكي مش مجرد كلام في صفحة… دي نية حلوة بدعي ربنا يبارك فيها. 🤍</p>
-        <span className="secret-signature">بحبك يا نونتي ✨</span>
-      </div>
-
-      <footer className="signature">
-        <span aria-hidden="true">✦</span><p>رسالة من يوسف إلى حنين</p>
-        <small>كل يوم حكاية جديدة… ولسه أجمل أيامنا جاية</small>
-      </footer>
+    <section className="surprise-stage" aria-label="المفاجأة">
+      <Envelope opened={opened} onOpen={() => { setOpened((value) => !value); if (!opened) setBurstKey((key) => key + 1); }} />
     </section>
 
-    <button className={'music-button ' + (isPlaying ? 'is-playing' : '')} type="button" onClick={toggleMusic} aria-pressed={isPlaying}>
-      <span className="music-icon" aria-hidden="true">{isPlaying ? 'Ⅱ' : '♫'}</span>
-      <span>{isPlaying ? 'وقّفي الأغنية' : 'شغّلي أغنيتنا'}</span>
-    </button>
+    {opened && <section className="reveal-panel" aria-live="polite">
+      <div className="section-eyebrow">✦ رسالة مخصوص ليكي ✦</div>
+      <h2>حنين… إنتِ مش صدفة حلوة، إنتِ اختياري كل يوم.</h2>
+      <p>يا نونتي، يمكن مش بعرف كل مرة أقول اللي جوايا بالطريقة الصح، بس الحقيقة إن وجودك بقى جزء من يومي ومن أحلامي. بحب تفاصيلك، صوتك، ضحكتك، وحتى الحكايات الصغيرة اللي يمكن إنتِ تنسيها وأنا تفضل في بالي.</p>
+      <p>نفسي نكبر سوا، ونفرح بالخطوات الصغيرة قبل الكبيرة، ونبقى لبعض راحة وسند. ولما الأيام تبقى صعبة، نفتكر إننا فريق واحد، وإن الحب مش كلام حلو وبس… الحب اهتمام وصبر وصدق واختيار بيتجدد كل يوم.</p>
+      <p>ربنا يحفظ قلبك، ويكتبلك كل خير، ويجمعنا على اللي فيه رضا وراحة. ولو هختار من أول وجديد، هختار أتعرف عليكي وأحبك تاني. 🤍</p>
+      <div className="letter-end"><span>بحبك يا حنين</span><b>— يوسف</b></div>
+    </section>}
+
+    <section className="time-section">
+      <div className="section-eyebrow">OUR LITTLE TIMELINE</div>
+      <h2>كل يوم من يوم ما عرفتك، له مكانه</h2>
+      <div className="counter-card">
+        <span className="counter-caption">عدّى على حكايتنا</span>
+        <div className="counter-number">{days.toLocaleString('ar-EG')} <small>يوم</small></div>
+        <div className="counter-date"><span>♡</span> بدأت حكايتنا يوم ١٧ فبراير ٢٠٢٦ <span>♡</span></div>
+        <div className="counter-progress" aria-hidden="true"><span style={{ width: ((days % 30) / 30 * 100) + '%' }} /></div>
+        <small className="counter-footnote">والأجمل لسه قدّامنا، يوم ورا يوم.</small>
+      </div>
+    </section>
+
+    <section className="reasons-section">
+      <div className="section-eyebrow">LITTLE THINGS I LOVE</div>
+      <h2>أربع حاجات… ولسه في كتير</h2>
+      <div className="reason-card" key={reasonIndex}>
+        <span className="reason-number">0{reasonIndex + 1} / 04</span>
+        <span className="reason-symbol">{['✧', '♡', '☾', '∞'][reasonIndex]}</span>
+        <h3>{REASONS[reasonIndex].title}</h3>
+        <p>{REASONS[reasonIndex].text}</p>
+        <div className="reason-controls">
+          <button type="button" onClick={() => setReasonIndex((reasonIndex + REASONS.length - 1) % REASONS.length)} aria-label="السبب السابق">→</button>
+          <span>{reasonIndex + 1} من {REASONS.length}</span>
+          <button type="button" onClick={() => setReasonIndex((reasonIndex + 1) % REASONS.length)} aria-label="السبب التالي">←</button>
+        </div>
+      </div>
+    </section>
+
+    <section className="secret-section">
+      <button type="button" className="secret-toggle" onClick={() => { setSecretOpen((value) => !value); if (!secretOpen) setBurstKey((key) => key + 1); }} aria-expanded={secretOpen}>
+        <span className="secret-icon">{secretOpen ? '♡' : '✉'}</span>
+        <span><b>{secretOpen ? 'اقفلي السر الصغير' : 'فيه سر صغير مستخبي ليكي'}</b><small>{secretOpen ? 'خليه بينا وبين بعض' : 'اضغطي هنا لوحدك واكتشفيه'}</small></span>
+        <span className="secret-arrow">{secretOpen ? '−' : '+'}</span>
+      </button>
+      {secretOpen && <div className="secret-note">
+        <span className="secret-star">✦</span>
+        <p>لو جه يوم وشكّيتي إنك مش كفاية، افتكري إنك مش مطالبة تبقي مثالية عشان تتحبي. أنا بحبك وإنتِ على طبيعتك، بفرحتك وتعبك وهدوءك وكلامك الكتير. نفسي أكون الشخص اللي تقدري تكوني معاه على راحتك، من غير خوف ولا تكلّف. ربنا يخلّي قلبك مطمّن، ويخلّي بينا دايمًا مساحة للكلام والضحك والتفاهم. دي أمنيتي ليكي قبل ما تكون أمنية لينا. 🤍</p>
+        <b>سرّ نونتي وبابي بس.</b>
+      </div>}
+    </section>
+
+    <section className="music-card">
+      <div className={'vinyl ' + (isPlaying ? 'spinning' : '')}><span>♡</span></div>
+      <div className="music-copy"><b>موسيقى لحظتنا</b><small>{isPlaying ? 'خلي اللحظة تاخد وقتها…' : 'شغّليها وإنتِ بتقرأي رسالتي'}</small></div>
+      <button type="button" className="play-button" onClick={toggleMusic} aria-label={isPlaying ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى'}>{isPlaying ? 'Ⅱ' : '▶'}</button>
+    </section>
     {musicError && <p className="music-error" role="status">{musicError}</p>}
     <audio ref={audioRef} src={SONG_URL} loop preload="none" onPause={() => setIsPlaying(false)} onPlay={() => setIsPlaying(true)} />
-    <p className="page-note">اتصمّمت بحب، مخصوص لنونتي ♡</p>
+
+    <footer className="page-footer">
+      <div className="footer-mark">Y <span>♡</span> H</div>
+      <p>من يوسف لحنين، بحبّ صادق ونية حلوة.</p>
+      <small>17.02.2026 — وإلى كل الأيام اللي لسه جاية</small>
+    </footer>
   </main>;
 }
