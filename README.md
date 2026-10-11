@@ -1,29 +1,24 @@
-# Hansen-gift-from-daddy- 💗
+# Haneen Love Gift — Version 2 💌
 
-A romantic Arabic love-letter website built with React and Vite.
+A refreshed mobile-first Arabic love-gift experience built with React and Vite.
 
-## Features
-- Responsive Arabic RTL layout with a dark plum, rose, and gold theme.
-- Animated ambient lights, stars, a heart emblem, and an optional heart shower.
-- Relationship day counter calculated from a configurable start date.
-- Music controls with playback error feedback.
-- A private-style message revealed by a button.
-- Respects reduced-motion accessibility preferences.
+## Highlights
+- Warm paper, rose, and berry visual design with a mobile-first layout.
+- New original Egyptian-Arabic love letter.
+- Live elapsed-day counter from 2026-02-17.
+- Interactive reasons carousel, randomized gifts, a tiny quiz, and a tap-to-send-heart counter.
+- User-triggered confetti only; no continuous particle loops or heavy animation libraries.
+- Romantic piano music track with a source/license credit and playback error handling.
+- RTL layout, keyboard focus states, and reduced-motion support.
 
-## Run locally
-Requires Node.js 18 or newer.
-
+## Run
     npm install
     npm run dev
 
-## Test and build
-
+## Verify
     npm test
     npm run build
-    npm run preview
 
-## Relationship date
-Edit RELATIONSHIP_START_DATE in src/App.jsx if needed. The current value 2026-02-17 preserves the original counter's value of 108 days on 2026-06-05.
+The music track “Loving” by Alex-Productions is offered under CC BY 3.0 by Free Stock Music. The site links to its attribution and license. The start date is 2026-02-17; on 2026-10-11 the elapsed-day count is 236.
 
-## Notes
-Music playback requires a user tap and the external audio URL to remain available. Relative asset paths are used for GitHub Pages project URLs. Work is isolated on feature/react-love-gift and should only be merged after review and approval.
+This version is isolated on `feature/romantic-surprise-v2`. It is not merged into `main`.
