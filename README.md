@@ -19,6 +19,6 @@ A refreshed mobile-first Arabic love-gift experience built with React and Vite.
     npm test
     npm run build
 
-The music track “Loving” by Alex-Productions is offered under CC BY 3.0 by Free Stock Music. The site links to its attribution and license. The start date is 2026-02-17; on 2026-10-11 the elapsed-day count is 236.
+The soundtrack is “Emotional Romantic Piano Music” by Alexander Blu from Orange Free Sounds, offered for non-commercial use under CC BY-NC 4.0. The page links to its source and license. The start date is 2026-02-17; on 2026-10-11 the elapsed-day count is 236.
 
 This version is isolated on `feature/romantic-surprise-v2`. It is not merged into `main`.
